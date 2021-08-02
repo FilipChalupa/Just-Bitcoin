@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24" height="24" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+ <circle cx="12" cy="12" r="12" fill="#fff" style="paint-order:stroke fill markers"/>
+ <g font-size="40px" letter-spacing="0px" word-spacing="0px">
+  <text x="4.1112347" y="3.5773082" fill="#000000" font-family="sans-serif" style="line-height:1.25" xml:space="preserve"><tspan x="4.1112347" y="3.5773082"/></text>
+  <text x="10.571746" y="-9.2903223" fill="#000000" font-family="sans-serif" style="line-height:1.25" xml:space="preserve"><tspan x="10.571746" y="-9.2903223"/></text>
+  <text x="15.163515" y="-5.766407" font-family="Arial" style="line-height:1.25" xml:space="preserve"><tspan x="15.163515" y="-5.766407"/></text>
+  <text x="-1.3882091" y="-20.289209" font-family="Bahnschrift" style="line-height:1.25" xml:space="preserve"><tspan x="-1.3882091" y="-20.289209"/></text>
+ </g>
+ <g aria-label="£">
+  <path d="m7.6497 16.575q0.62629 0 0.93944-0.36393 0.32161-0.37239 0.32161-1.1087v-5.6789q0-1.151 0.4401-1.9635 0.4401-0.82095 1.278-1.2441 0.84634-0.43163 2.0312-0.43163t2.0227 0.43163q0.84634 0.42317 1.2864 1.2441 0.4401 0.82095 0.4401 1.9804v0.11002h-1.7265v-0.11002q0-0.95636-0.53319-1.4811-0.53319-0.53319-1.4896-0.53319-0.96482 0-1.498 0.52473-0.52473 0.52473-0.52473 1.4726v5.6789q0 1.0156-0.75324 1.5234-0.74478 0.5078-2.2343 0.5078zm8.7596 1.6419h-8.8188v-1.6419h8.8188zm-2.0905-5.9498v1.3034h-6.5422v-1.3034z"/>
+ </g>
+</svg>

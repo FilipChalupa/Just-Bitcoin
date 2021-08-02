@@ -13,15 +13,39 @@
 	"shortcuts": [
 		{
 			"name": "USD",
-			"url": "./?currency=USD"
+			"url": "./?currency=USD",
+			"icons": [
+				{
+					"src": "icon/shortcut-usd.png",
+					"sizes": "96x96",
+					"type": "image/png",
+					"purpose": "any"
+				}
+			]
 		},
 		{
 			"name": "EUR",
-			"url": "./?currency=EUR"
+			"url": "./?currency=EUR",
+			"icons": [
+				{
+					"src": "icon/shortcut-eur.png",
+					"sizes": "96x96",
+					"type": "image/png",
+					"purpose": "any"
+				}
+			]
 		},
 		{
 			"name": "GBP",
-			"url": "./?currency=GBP"
+			"url": "./?currency=GBP",
+			"icons": [
+				{
+					"src": "icon/shortcut-gbp.png",
+					"sizes": "96x96",
+					"type": "image/png",
+					"purpose": "any"
+				}
+			]
 		}
 	],
 	"icons": [
