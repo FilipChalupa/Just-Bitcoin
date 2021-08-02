@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Just Bitcoin</title>
+	<meta name="description" content="Bitcoin price. Nothing more." />
+	<link rel="shortcut icon" href="icon/favicon.svg" />
+	<link rel="manifest" href="webmanifest.json" />
+	<meta name="color-scheme" content="light dark" />
+	<meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+	<meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Open+Sans&display=block"
+		rel="stylesheet"
+	/>
+	<style>
+		body {
+			color: black;
+			background-color: white;
+			font-size: 20vw;
+		}
+
+		@media (min-aspect-ratio: 12/5) {
+			body {
+				font-size: 48vh;
+			}
+		}
+
+		@media (prefers-color-scheme: dark) {
+			body {
+				color: white;
+				background-color: black;
+			}
+		}
+
+		.price {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-variant-numeric: tabular-nums;
+			font-family: 'Open Sans', sans-serif;
+			font-size: 1em;
+		}
+		.symbol:not(:empty) {
+			margin-right: 0.15em;
+		}
+	</style>
+</head>
+<body>
+	<div class="price">
+		<span class="symbol"></span>
+		<span class="value">…</span>
+	</div>
+	<script>
+		;(function () {
+			const $symbol = document.querySelector('.symbol')
+			const $value = document.querySelector('.value')
+			const formatter = new Intl.NumberFormat('en-US', {
+				maximumFractionDigits: 0,
+			})
+			const currencySymbols = {
+				USD: '$',
+				EUR: '€',
+				GBP: '£',
+			}
+			const currency = new URLSearchParams(window.location.search).get('currency') || localStorage.getItem('currency') || 'USD'
+			localStorage.setItem('currency', currency)
+
+			$symbol.textContent = currencySymbols[currency]
+
+			async function delay(time) {
+				return new Promise((resolve) => {
+					setTimeout(() => resolve(), time)
+				})
+			}
+
+			async function update() {
+				try {
+					const response = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
+					const data = await response.json()
+					$value.textContent = formatter.format(data.bpi[currency].rate_float)
+				} catch (error) {
+					console.error(error)
+				}
+				await delay(20000)
+				await update()
+			}
+
+			update()
+
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('serviceWorker.js')
+			}
+
+			if ('wakeLock' in navigator) {
+				navigator.wakeLock.request()
+			}
+		})()
+	</script>
+</body>
+</html>
