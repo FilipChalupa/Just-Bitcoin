@@ -1,6 +1,6 @@
 #!/bin/bash
 
-directory="$PWD/"
+directory="$(dirname "$BASH_SOURCE")/"
 icon="favicon.svg"
 iconMaskable="maskable.svg"
 sizes=(36 48 72 96 128 144 192 256 384 512 1024 2048)
