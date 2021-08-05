@@ -18,19 +18,11 @@ for i in "${sizes[@]}"; do
 	rsvg-convert -w $i -h $i "$directory$iconMaskable" -o "$directory$name"
 done
 
-echo "Resize USD"
-in="shortcut-usd.svg"
-out="shortcut-usd.png"
-rsvg-convert -w 96 -h 96 "$directory$in" -o "$directory$out"
+shortcuts=("usd" "eur" "gbp")
 
-echo "Resize EUR"
-in="shortcut-eur.svg"
-out="shortcut-eur.png"
-rsvg-convert -w 96 -h 96 "$directory$in" -o "$directory$out"
-
-echo "Resize GBP"
-in="shortcut-gbp.svg"
-out="shortcut-gbp.png"
-rsvg-convert -w 96 -h 96 "$directory$in" -o "$directory$out"
+for i in "${shortcuts[@]}"; do
+	echo "Resize shortcut $i"
+	rsvg-convert -w 96 -h 96 "$directory"shortcut-"$i.svg" -o "$directory"shortcut-"$i.png"
+done
 
 echo Done
