@@ -137,21 +137,24 @@
 
 				async function runWakeLock() {
 					let wakeLock = null
-					try {
-						wakeLock = await navigator.wakeLock.request('screen')
-					} catch (error) {
-						console.error(error)
+					async function requestWakeLock() {
+						try {
+							wakeLock = await navigator.wakeLock.request('screen')
+						} catch (error) {
+							console.error(error)
+						}
+						if (wakeLock) {
+							wakeLock.addEventListener('release', () => {
+								wakeLock = null
+							})
+						}
 					}
-					if (wakeLock) {
-						wakeLock.addEventListener('release', () => {
-							wakeLock = null
-						})
-						document.addEventListener('visibilitychange', async () => {
-							if (wakeLock === null && document.visibilityState === 'visible') {
-								wakeLock = await navigator.wakeLock.request('screen')
-							}
-						})
-					}
+					await requestWakeLock()
+					document.addEventListener('visibilitychange', async () => {
+						if (wakeLock === null && document.visibilityState === 'visible') {
+							await requestWakeLock()
+						}
+					})
 				}
 
 				if ('wakeLock' in navigator) {
