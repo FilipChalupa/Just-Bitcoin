@@ -33,6 +33,7 @@
 				color: black;
 				background-color: white;
 				font-size: 20vw;
+				font-family: 'Open Sans', sans-serif;
 			}
 
 			@media (min-aspect-ratio: 12/5) {
@@ -58,12 +59,24 @@
 				justify-content: center;
 				align-items: center;
 				font-variant-numeric: tabular-nums;
-				font-family: 'Open Sans', sans-serif;
 				font-size: 1em;
 			}
 
 			.symbol:not(:empty) {
 				margin-right: 0.15em;
+			}
+
+			.freshness {
+				position: fixed;
+				bottom: 0.5em;
+				right: 0.5em;
+				line-height: 1;
+				font-size: max(0.875rem, 0.01em);
+				opacity: 0.5;
+				transition: opacity 0.2s;
+			}
+			.freshness:empty {
+				opacity: 0;
 			}
 		</style>
 	</head>
@@ -73,6 +86,7 @@
 			<span class="symbol"></span>
 			<span class="value">…</span>
 		</div>
+		<span class="freshness">23:58</span>
 		<script>
 			;(function () {
 				const $symbol = document.querySelector('.symbol')
@@ -99,6 +113,36 @@
 					})
 				}
 
+				const freshnessHandler = (() => {
+					let timer = null
+					const $freshness = document.querySelector('.freshness')
+					let lastUpdate = new Date()
+
+					function setDate(date) {
+						lastUpdate = date
+						update()
+					}
+
+					function update() {
+						clearTimeout(timer)
+
+						const now = new Date()
+						const difference = now.getTime() - lastUpdate.getTime()
+
+						const isStale = difference > 3 * 60 * 1000
+
+						$freshness.textContent = isStale
+							? `Last update ${lastUpdate.toLocaleString()}`
+							: ``
+
+						timer = setTimeout(update, 2000)
+					}
+
+					return {
+						setDate,
+					}
+				})()
+
 				const valueHandler = (() => {
 					let timer = null
 					async function update() {
@@ -113,6 +157,8 @@
 							$value.textContent = formatter.format(
 								data.bpi[currency].rate_float,
 							)
+
+							freshnessHandler.setDate(new Date(data.time.updatedISO))
 						} catch (error) {
 							console.error(error)
 							nextUpdateDelay = 5000
