@@ -193,5 +193,7 @@
 			"type": "image/png",
 			"purpose": "maskable"
 		}
+	],
+	"related_applications": [
 	]
 }
