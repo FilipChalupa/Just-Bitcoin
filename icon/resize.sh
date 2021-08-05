@@ -5,6 +5,9 @@ icon="favicon.svg"
 iconMaskable="maskable.svg"
 sizes=(36 48 72 96 128 144 192 256 384 512 1024 2048)
 
+echo "Create favicon.ico"
+rsvg-convert -w 32 -h 32 "$directory$icon" -o "$directory""../favicon.ico"
+
 for i in "${sizes[@]}"; do
 	echo Resizing $i
 
