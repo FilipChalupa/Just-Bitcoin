@@ -99,21 +99,37 @@
 					})
 				}
 
-				async function update() {
-					try {
-						const response = await fetch(
-							'https://api.coindesk.com/v1/bpi/currentprice.json',
-						)
-						const data = await response.json()
-						$value.textContent = formatter.format(data.bpi[currency].rate_float)
-					} catch (error) {
-						console.error(error)
+				const valueHandler = (() => {
+					let timer = null
+					async function update() {
+						clearTimeout(timer)
+						let nextUpdateDelay =
+							document.visibilityState === 'visible' ? 15000 : 60000
+						try {
+							const response = await fetch(
+								'https://api.coindesk.com/v1/bpi/currentprice.json',
+							)
+							const data = await response.json()
+							$value.textContent = formatter.format(
+								data.bpi[currency].rate_float,
+							)
+						} catch (error) {
+							console.error(error)
+							nextUpdateDelay = 5000
+						}
+						timer = setTimeout(update, nextUpdateDelay)
 					}
-					await delay(20000)
-					await update()
-				}
 
-				update()
+					update()
+
+					return { update }
+				})()
+
+				document.addEventListener('visibilitychange', async () => {
+					if (document.visibilityState === 'visible') {
+						await valueHandler.update()
+					}
+				})
 
 				if ('serviceWorker' in navigator) {
 					navigator.serviceWorker.register('serviceWorker.js')
