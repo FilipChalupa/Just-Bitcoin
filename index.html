@@ -102,7 +102,7 @@
 				const valueHandler = (() => {
 					let timer = null
 					async function update() {
-						clearTimeout(timer)
+						stop()
 						let nextUpdateDelay =
 							document.visibilityState === 'visible' ? 15000 : 60000
 						try {
@@ -119,11 +119,24 @@
 						}
 						timer = setTimeout(update, nextUpdateDelay)
 					}
+					function stop() {
+						clearTimeout(timer)
+						timer = null
+					}
 
 					update()
 
-					return { update }
+					return { update, stop }
 				})()
+
+				document.addEventListener('selectionchange', () => {
+					const isSomethingSelected = !document.getSelection().isCollapsed
+					if (isSomethingSelected) {
+						valueHandler.stop()
+					} else {
+						valueHandler.update()
+					}
+				})
 
 				document.addEventListener('visibilitychange', async () => {
 					if (document.visibilityState === 'visible') {
