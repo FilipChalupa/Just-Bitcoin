@@ -15,3 +15,12 @@ self.addEventListener('fetch', function (event) {
 		}),
 	)
 })
+
+self.addEventListener('periodicsync', (event) => {
+	event.waitUntil(async () => {
+		if (event.tag == 'get-latest-price') {
+			const cache = await caches.open(VERSION)
+			await cache.add('https://api.coindesk.com/v1/bpi/currentprice.json')
+		}
+	})
+})
