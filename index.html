@@ -131,6 +131,10 @@
 					}
 				})
 
+				window.addEventListener('online', async () => {
+					await valueHandler.update()
+				})
+
 				if ('serviceWorker' in navigator) {
 					navigator.serviceWorker.register('serviceWorker.js')
 				}
