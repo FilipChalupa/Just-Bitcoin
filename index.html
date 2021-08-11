@@ -164,10 +164,13 @@
 
 				const valueHandler = (() => {
 					let timer = null
-					async function update() {
+					async function update(initial = false) {
 						stop()
-						let nextUpdateDelay =
-							document.visibilityState === 'visible' ? 15000 : 60000
+						let nextUpdateDelay = initial
+							? 1500
+							: document.visibilityState === 'visible'
+							? 15000
+							: 60000
 						try {
 							const response = await fetch(
 								'https://api.coindesk.com/v1/bpi/currentprice.json',
@@ -190,7 +193,7 @@
 						timer = null
 					}
 
-					update()
+					update(true)
 
 					return { update, stop }
 				})()
