@@ -24,8 +24,10 @@
 			media="(prefers-color-scheme: dark)"
 			content="black"
 		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Open+Sans&display=block"
+			href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
 			rel="stylesheet"
 		/>
 		<style>
@@ -33,7 +35,7 @@
 				color: black;
 				background-color: white;
 				font-size: 20vw;
-				font-family: 'Open Sans', sans-serif;
+				font-family: 'Roboto', Arial, Helvetica, sans-serif;
 			}
 
 			@media (min-aspect-ratio: 12/5) {
@@ -49,6 +51,12 @@
 				}
 			}
 
+			@keyframes fade-in {
+				100% {
+					opacity: 1;
+				}
+			}
+
 			.price {
 				position: fixed;
 				top: 0;
@@ -60,6 +68,13 @@
 				align-items: center;
 				font-variant-numeric: tabular-nums;
 				font-size: 1em;
+				opacity: 0;
+				animation: fade-in 0.1s 3s forwards;
+				transition: opacity 0.1s;
+			}
+
+			.price.is-loaded {
+				opacity: 1;
 			}
 
 			.symbol:not(:empty) {
@@ -84,13 +99,14 @@
 	<body>
 		<div class="price">
 			<span class="symbol"></span>
-			<span class="value">…</span>
+			<span class="value">Loading…</span>
 		</div>
 		<span class="freshness"></span>
 		<script>
 			;(function () {
-				const $symbol = document.querySelector('.symbol')
-				const $value = document.querySelector('.value')
+				const $price = document.querySelector('.price')
+				const $symbol = $price.querySelector('.symbol')
+				const $value = $price.querySelector('.value')
 				const formatter = new Intl.NumberFormat('en-US', {
 					maximumFractionDigits: 0,
 				})
@@ -157,6 +173,7 @@
 							$value.textContent = formatter.format(
 								data.bpi[currency].rate_float,
 							)
+							$price.classList.add('is-loaded')
 
 							freshnessHandler.setDate(new Date(data.time.updatedISO))
 						} catch (error) {
