@@ -151,7 +151,10 @@
 							? `Last update ${lastUpdate.toLocaleString()}`
 							: ``
 
-						timer = setTimeout(update, 2000)
+						timer = setTimeout(
+							update,
+							document.visibilityState === 'visible' ? 2000 : 30000,
+						)
 					}
 
 					return {
