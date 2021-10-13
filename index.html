@@ -167,7 +167,7 @@
 					async function update(initial = false) {
 						stop()
 						let nextUpdateDelay = initial
-							? 1500
+							? 5000
 							: document.visibilityState === 'visible'
 							? 15000
 							: 60000
